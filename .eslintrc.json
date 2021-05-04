@@ -5,7 +5,10 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "parserOptions": {
-        "project": ["packages/cad/viewer/tsconfig.*?.json"]
+        "project": [
+          "libs/cad/viewer/tsconfig.*?.json",
+          "libs/cad/viewer/.storybook/tsconfig.json"
+        ]
       },
       "rules": {}
     },
