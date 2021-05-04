@@ -1,7 +1,17 @@
 # cad-viewer
 
-This library was generated with [Nx](https://nx.dev).
+todos:
 
-## Running unit tests
+- [] add switch between orth and pers
+- [] extract cameraFitToObject fn
+- [] build working cameraHelperDisplay
+- [] LayerManager
+- [] packaging
 
-Run `nx test cad-viewer` to execute the unit tests via [Jest](https://jestjs.io).
+  - react
+  - threejs
+  - r3f
+  - drei
+  - three-stdlib
+  - camera-controls
+  - react-spring

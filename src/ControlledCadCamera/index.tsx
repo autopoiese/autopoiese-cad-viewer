@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as THREE from 'three'
 import { useThree } from '@react-three/fiber'
 import {
   CameraControls,
@@ -6,9 +7,9 @@ import {
   CamereaControlProps
 } from '../CameraControls'
 import {
-  CinematicCamera,
   CinematicCameraProps,
-  CinematicCameraRef
+  CinematicCameraRef,
+  useCinematicCamera
 } from '../CinematicCamera'
 
 export type ControlledCadCameraRef = {
@@ -25,21 +26,36 @@ export const ControlledCadCamera = React.forwardRef<
   ControlledCadCameraRef,
   ControlledCadCameraProps
 >((props, ref) => {
-  const camera = React.useRef<CinematicCameraRef>(null)
+  const size = useThree(({ size }) => size)
+  const cinematicCamera = useCinematicCamera(props.cameraProps)
   const controls = React.useRef<CameraControlsRef>(null)
   const scene = useThree(({ scene }) => scene)
   React.useImperativeHandle(ref, () => ({
-    camera: camera.current,
-    controls: controls.current
+    camera: cinematicCamera,
+    controls: controls.current,
+    fitToScene: (
+      enableTransition,
+      padding = {
+        paddingLeft: 1,
+        paddingRight: 1,
+        paddingTop: 1,
+        paddingBottom: 1
+      }
+    ) => {
+      controls.current.fitToBox(scene, enableTransition, padding)
+    }
   }))
-  React.useMemo(() => {
-    console.log(props)
-  }, [props.cameraProps])
   return (
     <React.Fragment>
-      <CinematicCamera {...{ ...props.cameraProps, ref: camera }} />
+      <primitive
+        {...{
+          // ...props.cameraProps,
+          onUpdate: (cam) => cam.updateProjectionMatrix(),
+          object: cinematicCamera
+        }}
+      />
       <CameraControls
-        {...{ ...props.controlProps, camera: camera.current, ref: controls }}
+        {...{ ...props.controlProps, camera: cinematicCamera, ref: controls }}
       />
     </React.Fragment>
   )
