@@ -1,4 +1,26 @@
 {
   "name": "@autopoiese/cad-viewer",
-  "version": "0.0.1"
+  "description": "",
+  "keywords": [
+    "threejs",
+    "cad",
+    "viewer",
+    "react-three-fiber"
+  ],
+  "version": "0.0.1",
+  "dependencies": {
+    "camera-controls": "^1.28.1"
+  },
+  "devDependencies": {
+    "@storybook/react": "6.2.9",
+    "@storybook/addon-knobs": "^6.2.9"
+  },
+  "peerDependencies": {
+    "@react-spring/three": "^9.1.2",
+    "@react-three/drei": "^4.3.3",
+    "@react-three/fiber": "6.0.19",
+    "react": "^17.0.2",
+    "three-stdlib": "^2.0.1",
+    "three": "^0.128.0"
+  }
 }
