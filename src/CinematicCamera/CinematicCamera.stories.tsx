@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as THREE from 'three'
 import { Meta } from '@storybook/react'
 import { withKnobs, number } from '@storybook/addon-knobs'
 import { Box, PerspectiveCamera } from '@react-three/drei'
@@ -9,14 +10,14 @@ import {
   CinematicCameraRef
 } from './index'
 import { Setup } from '../../.storybook/Setup'
-import { useHover } from 'react-use-gesture'
+import { CameraControls, CameraControlsRef } from '../CameraControls'
 
 export default {
   title: 'CinematicCamera',
   component: CinematicCamera,
   decorators: [
     (story) => (
-      <Setup {...{ controls: true }}>
+      <Setup {...{ controls: false }}>
         {story()}
         <Box {...{ args: [20, 20, 20] }}>
           <meshNormalMaterial />
@@ -27,9 +28,29 @@ export default {
   ]
 } as Meta
 
-const Template = ({ focalLength, position }) => (
-  <CinematicCamera {...{ makeDefault: true, focalLength, position }} />
-)
+const Template = ({ focalLength, position }) => {
+  const camera = React.useRef<CinematicCameraRef>(null)
+  // const controls = React.useRef<CameraControlsRef>(null)
+  // React.useEffect(() => {
+  //   if (controls.current) {
+  //     console.log('CONTROLS READY')
+  //     controls.current.fitToSphere(
+  //       new THREE.Sphere(new THREE.Vector3(), 10),
+  //       true
+  //     )
+  //   }
+  // }, [controls.current])
+  return (
+    <React.Fragment>
+      <CinematicCamera
+        {...{ ref: camera, makeDefault: true, focalLength, position }}
+      />
+      {/* {camera.current && (
+        <CameraControls {...{ ref: controls, camera: camera.current }} />
+      )} */}
+    </React.Fragment>
+  )
+}
 
 export const Wide = Template.bind({})
 Wide.args = {
@@ -37,12 +58,6 @@ Wide.args = {
   near: 0.01,
   position: [15, 15, 15]
 }
-
-// export const Tele = () => (
-//   <CinematicCamera
-//     {...{ makeDefault: true, focalLength: 200, position: [200, 200, 200] }}
-//   />
-// )
 
 export const Tele = Template.bind({})
 Tele.args = {
@@ -55,7 +70,7 @@ const AnimatedCinematicCamera = animated(CinematicCamera)
 const Component = () => {
   const ref = React.useRef<CinematicCameraRef>(null)
   const spring = useSpringRef()
-  const { focalLength } = useSpring({
+  useSpring({
     ref: spring,
     from: { focalLength: 2 },
     to: { focalLength: 200 },
@@ -77,9 +92,10 @@ const Component = () => {
         {...{
           ref,
           makeDefault: true,
-          focalLength
+          position: [0, 0, 150]
         }}
       />
+      {ref.current && <CameraControls {...{ camera: ref.current }} />}
     </React.Fragment>
   )
 }

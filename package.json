@@ -11,10 +11,6 @@
   "dependencies": {
     "camera-controls": "^1.28.1"
   },
-  "devDependencies": {
-    "@storybook/react": "6.2.9",
-    "@storybook/addon-knobs": "^6.2.9"
-  },
   "peerDependencies": {
     "@react-spring/three": "^9.1.2",
     "@react-three/drei": "^4.3.3",
@@ -22,5 +18,12 @@
     "react": "^17.0.2",
     "three-stdlib": "^2.0.1",
     "three": "^0.128.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.13.0"
+  },
+  "optionalDependencies": {
+    "@storybook/react": "6.2.9",
+    "@storybook/addon-knobs": "^6.2.9"
   }
 }
