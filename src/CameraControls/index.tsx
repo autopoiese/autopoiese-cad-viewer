@@ -2,7 +2,32 @@ import * as React from 'react'
 import * as THREE from 'three'
 import { useThree, useFrame, ReactThreeFiber } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
-import CameraControlsImpl from 'camera-controls'
+import CameraControlsDef from 'camera-controls'
+
+abstract class AbstractCameraControls extends CameraControlsDef {
+  public abstract _spherical: CameraControlsDef['_spherical']
+  public abstract _sphericalEnd: CameraControlsDef['_sphericalEnd']
+  public abstract _yAxisUpSpaceInverse: CameraControlsDef['_yAxisUpSpaceInverse']
+}
+
+class CameraControlsImpl
+  extends CameraControlsDef
+  implements AbstractCameraControls {
+  public _spherical = this._spherical
+  public _sphericalEnd = this._sphericalEnd
+  public _yAxisUpSpaceInverse = this._yAxisUpSpaceInverse
+
+  get type() {
+    return this._camera.type
+  }
+  get camera() {
+    return this._camera
+  }
+
+  getZoom() {
+    return this._zoom
+  }
+}
 
 CameraControlsImpl.install({ THREE })
 
@@ -28,11 +53,12 @@ export const CameraControls = React.forwardRef<
   const performance = useThree(({ performance }) => performance)
   const explCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera =
     (camera as any) || defaultCamera
+
   const controls = React.useMemo(() => {
     const controls = new CameraControlsImpl(explCamera, gl.domElement)
-    controls.setBoundary
     return controls
   }, [explCamera])
+
   useFrame(({ scene, camera, gl }, delta) => {
     if (controls) {
       const hasControlsUpdated = controls.update(delta)
@@ -42,7 +68,6 @@ export const CameraControls = React.forwardRef<
 
   React.useEffect(() => {
     const callback = () => {
-      console.log('CALLBACK')
       invalidate()
       if (regress) performance.regress()
     }
