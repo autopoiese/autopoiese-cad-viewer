@@ -19,7 +19,7 @@ export default {
     (story) => (
       <Setup {...{ controls: false }}>
         {story()}
-        <Box {...{ args: [20, 20, 20] }}>
+        <Box {...{ args: [15, 15, 15] }}>
           <meshNormalMaterial />
         </Box>
       </Setup>
@@ -28,41 +28,27 @@ export default {
   ]
 } as Meta
 
-const Template = ({ focalLength, position }) => {
-  const camera = React.useRef<CinematicCameraRef>(null)
-  // const controls = React.useRef<CameraControlsRef>(null)
-  // React.useEffect(() => {
-  //   if (controls.current) {
-  //     console.log('CONTROLS READY')
-  //     controls.current.fitToSphere(
-  //       new THREE.Sphere(new THREE.Vector3(), 10),
-  //       true
-  //     )
-  //   }
-  // }, [controls.current])
-  return (
-    <React.Fragment>
-      <CinematicCamera
-        {...{ ref: camera, makeDefault: true, focalLength, position }}
-      />
-      {/* {camera.current && (
-        <CameraControls {...{ ref: controls, camera: camera.current }} />
-      )} */}
-    </React.Fragment>
-  )
+const Template = (args) => {
+  const onMount = React.useCallback((camera) => {
+    if (camera) {
+      camera.lookAt(0, 0, 0)
+      camera.updateProjectionMatrix()
+    }
+  }, [])
+  return <CinematicCamera {...{ ref: onMount, makeDefault: true, ...args }} />
 }
 
 export const Wide = Template.bind({})
 Wide.args = {
   focalLength: 2,
   near: 0.01,
-  position: [15, 15, 15]
+  position: [25, 25, 25]
 }
 
 export const Tele = Template.bind({})
 Tele.args = {
   focalLength: 200,
-  position: [150, 150, 150]
+  position: [250, 250, 250]
 }
 
 const AnimatedCinematicCamera = animated(CinematicCamera)

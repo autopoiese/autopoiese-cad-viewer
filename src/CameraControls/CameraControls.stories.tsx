@@ -1,12 +1,25 @@
 import * as React from 'react'
 import { Meta } from '@storybook/react'
-import { Octahedron } from '@react-three/drei'
+import {
+  Octahedron,
+  PerspectiveCamera,
+  OrthographicCamera
+} from '@react-three/drei'
+import { useThree } from '@react-three/fiber'
 import { Setup } from '../../.storybook/Setup'
 import { CameraControls } from './index'
 
 export default {
   title: 'CameraControls',
   component: CameraControls,
+  argTypes: {
+    cameraType: {
+      control: {
+        type: 'select'
+      },
+      options: ['orthographic', 'perspective']
+    }
+  },
   decorators: [
     (story) => (
       <Setup {...{ controls: false }}>
@@ -35,3 +48,27 @@ FitInStory.story = { name: 'Fit In' }
 FitInStory.args = {
   fitInitial: true
 }
+
+const SwitchCameraComponent: React.FC<{
+  cameraType: 'orthographic' | 'perspective'
+}> = ({ cameraType }) => {
+  console.log(cameraType)
+  return (
+    <React.Fragment>
+      <OrthographicCamera
+        {...{ makeDefault: cameraType === 'orthographic', position: [5, 5, 5] }}
+      />
+      <PerspectiveCamera
+        {...{ makeDefault: cameraType === 'perspective', position: [5, 5, 5] }}
+      />
+      <CameraControls />
+    </React.Fragment>
+  )
+}
+const SwitchCameraStoryTemplate = (args) => {
+  return <SwitchCameraComponent {...args} />
+}
+
+export const SwitchCameraStory = SwitchCameraStoryTemplate.bind({})
+SwitchCameraStory.story = { name: 'Switch Camera Type' }
+// SwitchCameraStory.args = {}

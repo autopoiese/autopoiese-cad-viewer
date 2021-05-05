@@ -27,6 +27,29 @@ export default {
 } as Meta
 
 const Component = (props) => {
+  const scene = useThree(({ scene }) => scene)
+  return (
+    <React.Fragment>
+      <Box>
+        <meshNormalMaterial />
+      </Box>
+      <ControlledCadCamera
+        {...{
+          cameraProps: {
+            makeDefault: true
+          },
+          controlProps: {
+            fitInitial: true
+          }
+        }}
+      />
+    </React.Fragment>
+  )
+}
+
+const Template = (args) => <Component {...args} />
+
+const SpringComponent = (props) => {
   const ref = React.useRef<ControlledCadCameraRef>()
   const box = React.useRef<THREE.Mesh>()
   const scene = useThree(({ scene }) => scene)
@@ -77,12 +100,13 @@ const Component = (props) => {
           }
         }}
       />
-      <CameraHelper/>
+      <CameraHelper />
     </React.Fragment>
   )
 }
 
-const Template = () => <Component />
-
 export const DefaultStory = Template.bind({})
 DefaultStory.story = { name: 'Default' }
+
+export const SpringStory = () => <SpringComponent />
+SpringStory.story = { name: 'Spring' }

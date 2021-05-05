@@ -32,11 +32,11 @@ export const useCinematicCamera = (
       near,
       far
     )
+    cinematicCamera.setFocalLength(focalLength)
     return cinematicCamera
   }, [])
   React.useLayoutEffect(() => {
-    console.log('set focal length')
-    !focalLength && camera.setFocalLength(focalLength)
+    !!focalLength && camera.setFocalLength(focalLength)
   }, [focalLength])
 
   React.useLayoutEffect(() => {

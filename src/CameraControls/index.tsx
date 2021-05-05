@@ -81,7 +81,6 @@ export const CameraControls = React.forwardRef<
   React.useLayoutEffect(() => {
     if (fitInitial) {
       const obj = fitInitial instanceof THREE.Object3D ? fitInitial : scene
-      console.log('FIT INITIAL', obj)
       controls.fitTo(obj, true)
     }
   }, [])
