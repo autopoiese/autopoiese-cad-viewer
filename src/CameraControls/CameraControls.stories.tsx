@@ -52,7 +52,6 @@ FitInStory.args = {
 const SwitchCameraComponent: React.FC<{
   cameraType: 'orthographic' | 'perspective'
 }> = ({ cameraType }) => {
-  console.log(cameraType)
   return (
     <React.Fragment>
       <OrthographicCamera
@@ -71,4 +70,3 @@ const SwitchCameraStoryTemplate = (args) => {
 
 export const SwitchCameraStory = SwitchCameraStoryTemplate.bind({})
 SwitchCameraStory.story = { name: 'Switch Camera Type' }
-// SwitchCameraStory.args = {}

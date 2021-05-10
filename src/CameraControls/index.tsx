@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as THREE from 'three'
 import { useThree, useFrame, ReactThreeFiber } from '@react-three/fiber'
-import { Html } from '@react-three/drei'
 import CameraControlsDef from 'camera-controls'
 
 abstract class AbstractCameraControls extends CameraControlsDef {
