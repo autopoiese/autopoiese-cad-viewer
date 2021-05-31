@@ -54,6 +54,7 @@ export const useCinematicCamera = (
         }))
     }
   }, [makeDefault, set])
+
   return camera
 }
 
@@ -62,6 +63,7 @@ export const CinematicCamera = React.forwardRef<
   CinematicCameraProps
 >((props, ref) => {
   const camera = useCinematicCamera(props)
+
   React.useImperativeHandle(ref, () => camera)
   const { focalLength, makeDefault, ...objectProps } = props
   return (
@@ -69,7 +71,7 @@ export const CinematicCamera = React.forwardRef<
       {...{
         ...objectProps,
         object: camera,
-        onUpdate: (cam) => cam.updateProjectionMatrix()
+        onUpdate: (cam) => cam?.updateProjectionMatrix()
       }}
     />
   )
