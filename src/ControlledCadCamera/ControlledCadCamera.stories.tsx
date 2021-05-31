@@ -3,13 +3,15 @@ import * as THREE from 'three'
 import { Meta } from '@storybook/react'
 import { withKnobs, number } from '@storybook/addon-knobs'
 import { Box } from '@react-three/drei'
-import { Setup, CameraHelper } from '../../.storybook/Setup'
+
+import { Setup } from '@autopoiese/stories'
+import { CameraHelper } from '../../.storybook/Setup'
 import { ControlledCadCamera, ControlledCadCameraRef } from './index'
 import { a, useSpring, useSpringRef } from '@react-spring/three'
 import { useThree } from '@react-three/fiber'
 
 export default {
-  title: 'ControlledCadCamera',
+  title: 'Cad/Viewer/ControlledCadCamera',
   component: ControlledCadCamera,
   decorators: [
     withKnobs,

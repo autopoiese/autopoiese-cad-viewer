@@ -60,15 +60,15 @@ export const useCameraTypeSwitch = (
           const distance = unitDistance * ratio.current
           controls.setTarget(target.x, target.y, target.z, false)
           controls.rotateTo(azimuth, polar, false)
-          controls._sphericalEnd.radius = distance
+          controls.sphericalEnd.radius = distance
 
           const maxDistance = distance + 1500
           const minDistance = Math.max(distance - 300, 0.01)
 
-          controls._spherical.radius = controls._sphericalEnd.radius
+          controls.spherical.radius = controls.sphericalEnd.radius
           camera.position
-            .setFromSpherical(controls._spherical)
-            .applyQuaternion(controls._yAxisUpSpaceInverse)
+            .setFromSpherical(controls.spherical)
+            .applyQuaternion(controls.yAxisUpSpaceInverse)
             .add(target)
 
           camera.far = maxDistance
