@@ -4,6 +4,7 @@
     "emitDecoratorMetadata": true
   },
   "exclude": [
+    "../../../dist/*",
     "../**/*.spec.ts",
     "../**/*.spec.js",
     "../**/*.spec.tsx",
