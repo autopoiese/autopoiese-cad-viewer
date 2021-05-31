@@ -22,3 +22,12 @@ export const getSphere = (input: ObjectToFit): THREE.Sphere => {
       .getBoundingSphere(undefined)
   return new THREE.Sphere()
 }
+
+export const getDiameter = (object: ObjectToFit) => {
+  let radius = getSphere(object).radius
+
+  if (radius !== Infinity) {
+    return radius * 2
+  }
+  return 0
+}

@@ -21,3 +21,5 @@ export const getBox = (input: ObjectToFit): THREE.Box3 => {
 const getBoxFromPoints = (points: Point[]): THREE.Box3 => {
   return new THREE.Box3().setFromPoints(points.map<THREE.Vector3>(toVector3))
 }
+
+
