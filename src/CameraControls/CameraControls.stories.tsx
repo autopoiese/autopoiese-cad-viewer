@@ -6,11 +6,11 @@ import {
   OrthographicCamera
 } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
-import { Setup } from '../../.storybook/Setup'
+import { Setup } from '@autopoiese/stories'
 import { CameraControls } from './index'
 
 export default {
-  title: 'CameraControls',
+  title: 'Cad/Viewer/CameraControls',
   component: CameraControls,
   argTypes: {
     cameraType: {
@@ -32,7 +32,9 @@ export default {
   ]
 } as Meta
 
-const Template = (args) => <CameraControls {...args} />
+const Template = ({ dollyToCursor, fitInitial, cameraType }) => (
+  <CameraControls {...{ dollyToCursor, fitInitial }} />
+)
 
 export const DefaultCameraControlsStory = Template.bind({})
 DefaultCameraControlsStory.story = { name: 'Default' }

@@ -9,11 +9,11 @@ import {
   CinematicCameraProps,
   CinematicCameraRef
 } from './index'
-import { Setup } from '../../.storybook/Setup'
+import { Setup, CameraViewer } from '@autopoiese/stories'
 import { CameraControls, CameraControlsRef } from '../CameraControls'
 
 export default {
-  title: 'CinematicCamera',
+  title: 'Cad/Viewer/CinematicCamera',
   component: CinematicCamera,
   decorators: [
     (story) => (
@@ -22,20 +22,25 @@ export default {
         <Box {...{ args: [15, 15, 15] }}>
           <meshNormalMaterial />
         </Box>
+        <CameraViewer />
       </Setup>
     ),
     withKnobs
   ]
 } as Meta
 
-const Template = (args) => {
+const Template = ({ id, focalLength, near, position, ...args }) => {
   const onMount = React.useCallback((camera) => {
     if (camera) {
       camera.lookAt(0, 0, 0)
       camera.updateProjectionMatrix()
     }
   }, [])
-  return <CinematicCamera {...{ ref: onMount, makeDefault: true, ...args }} />
+  return (
+    <CinematicCamera
+      {...{ ref: onMount, makeDefault: true, focalLength, position, near }}
+    />
+  )
 }
 
 export const Wide = Template.bind({})
