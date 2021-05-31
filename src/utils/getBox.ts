@@ -1,4 +1,3 @@
-import { ReactThreeFiber } from '@react-three/fiber'
 import * as THREE from 'three'
 import { toVector3 } from './toVector'
 import { ObjectToFit, Point } from './types'
@@ -21,5 +20,3 @@ export const getBox = (input: ObjectToFit): THREE.Box3 => {
 const getBoxFromPoints = (points: Point[]): THREE.Box3 => {
   return new THREE.Box3().setFromPoints(points.map<THREE.Vector3>(toVector3))
 }
-
-
