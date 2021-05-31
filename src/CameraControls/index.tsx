@@ -3,24 +3,39 @@ import * as THREE from 'three'
 import { useThree, useFrame, ReactThreeFiber } from '@react-three/fiber'
 import CameraControlsDef from 'camera-controls'
 
-abstract class AbstractCameraControls extends CameraControlsDef {
-  public abstract _spherical: CameraControlsDef['_spherical']
-  public abstract _sphericalEnd: CameraControlsDef['_sphericalEnd']
-  public abstract _yAxisUpSpaceInverse: CameraControlsDef['_yAxisUpSpaceInverse']
-}
+// abstract class AbstractCameraControls extends CameraControlsDef {
+//   public abstract _spherical: CameraControlsDef['_spherical']
+//   public abstract _sphericalEnd: CameraControlsDef['_sphericalEnd']
+//   public abstract _yAxisUpSpaceInverse: CameraControlsDef['_yAxisUpSpaceInverse']
+// }
 
-class CameraControlsImpl
-  extends CameraControlsDef
-  implements AbstractCameraControls {
-  public _spherical = this._spherical
-  public _sphericalEnd = this._sphericalEnd
-  public _yAxisUpSpaceInverse = this._yAxisUpSpaceInverse
+// // @ts-ignore
+class CameraControlsImpl extends CameraControlsDef {
+  get spherical() {
+    return this['_spherical']
+  }
+  get sphericalEnd() {
+    return this._sphericalEnd
+  }
+  set sphericalEnd(sphericalEnd) {
+    this._sphericalEnd = sphericalEnd
+  }
+  get yAxisUpSpaceInverse() {
+    return this._yAxisUpSpaceInverse
+  }
+
+  set yAxisUpSpaceInverse(up) {
+    this._yAxisUpSpaceInverse = up
+  }
 
   get type() {
     return this._camera.type
   }
   get camera() {
     return this._camera
+  }
+  set camera(camera) {
+    this._camera = camera
   }
 
   getZoom() {
@@ -32,6 +47,8 @@ CameraControlsImpl.install({ THREE })
 
 export type CameraControlsRef = CameraControlsImpl
 
+// type CameraControlsMouseActions =typeof CameraControlsImpl["ACTION"]["DOLLY" | ""]
+
 export type CamereaControlProps = ReactThreeFiber.Object3DNode<
   CameraControlsImpl,
   typeof CameraControlsImpl
@@ -39,9 +56,10 @@ export type CamereaControlProps = ReactThreeFiber.Object3DNode<
   fitInitial?: boolean | THREE.Object3D
   regress?: boolean
   camera?: THREE.Camera
+  mouseButtons?: Partial<CameraControlsImpl['mouseButtons']>
 }
 
-export const CameraControls = React.forwardRef<
+const CameraControlsComponent = React.forwardRef<
   CameraControlsRef,
   CamereaControlProps
 >(({ fitInitial, regress, camera, ...props }, ref) => {
@@ -83,9 +101,11 @@ export const CameraControls = React.forwardRef<
       controls.fitTo(obj, true)
     }
   }, [])
-  return (
-    <React.Fragment>
-      <primitive {...{ ...props, ref, object: controls }} />
-    </React.Fragment>
-  )
+  return <primitive {...{ ...props, ref, object: controls }} />
 })
+
+CameraControlsComponent['ACTION'] = CameraControlsImpl.ACTION
+
+export const CameraControls = CameraControlsComponent as typeof CameraControlsComponent & {
+  ACTION: typeof CameraControlsImpl['ACTION']
+}
