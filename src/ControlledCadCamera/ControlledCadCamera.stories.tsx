@@ -3,9 +3,8 @@ import * as THREE from 'three'
 import { Meta } from '@storybook/react'
 import { withKnobs, number } from '@storybook/addon-knobs'
 import { Box } from '@react-three/drei'
-
-import { Setup } from '@autopoiese/stories'
-import { CameraHelper } from '../../.storybook/Setup'
+import { Setup } from '../../.storybook/Setup'
+import { CameraViewer } from '../../.storybook/CameraViewer'
 import { ControlledCadCamera, ControlledCadCameraRef } from './index'
 import { a, useSpring, useSpringRef } from '@react-spring/three'
 import { useThree } from '@react-three/fiber'
@@ -102,7 +101,6 @@ const SpringComponent = (props) => {
           }
         }}
       />
-      <CameraHelper />
     </React.Fragment>
   )
 }

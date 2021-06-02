@@ -6,7 +6,7 @@ import {
   OrthographicCamera
 } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
-import { Setup } from '@autopoiese/stories'
+import { Setup } from '../../.storybook/Setup'
 import { CameraControls } from './index'
 
 export default {

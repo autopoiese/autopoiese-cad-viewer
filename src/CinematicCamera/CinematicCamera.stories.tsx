@@ -9,7 +9,8 @@ import {
   CinematicCameraProps,
   CinematicCameraRef
 } from './index'
-import { Setup, CameraViewer } from '@autopoiese/stories'
+import { Setup } from '../../.storybook/Setup'
+import { CameraViewer } from '../../.storybook/CameraViewer'
 import { CameraControls, CameraControlsRef } from '../CameraControls'
 
 export default {

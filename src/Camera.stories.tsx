@@ -1,7 +1,9 @@
 import * as React from 'react'
 import * as THREE from 'three'
 import { Meta, Args } from '@storybook/react'
-import { Setup, CameraViewer, SphereHelper } from '@autopoiese/stories'
+import { Setup } from '../.storybook/Setup'
+import { CameraViewer } from '../.storybook/CameraViewer'
+import { SphereHelper } from '../.storybook/SphereHelper'
 import {
   PerspectiveCamera,
   OrthographicCamera,

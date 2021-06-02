@@ -2,8 +2,7 @@ import * as React from 'react'
 import { Meta } from '@storybook/react'
 import { Octahedron } from '@react-three/drei'
 import { PatchedOrbitControls } from './index'
-import { Setup } from '@autopoiese/stories'
-import { fit } from '../lib/fit'
+import { Setup } from '../../.storybook/Setup'
 import { useGraph, useThree } from '@react-three/fiber'
 
 export default {
@@ -16,9 +15,7 @@ export default {
           controls: false,
           orthographic: true,
           camera: { near: -10000, far: 10000 },
-          onCreated({ camera, scene, size }) {
-            // fit({ camera, object: scene, size })
-          }
+          // onCreated({ camera, scene, size }) {}
         }}
       >
         <Octahedron {...{ args: [50] }}>
