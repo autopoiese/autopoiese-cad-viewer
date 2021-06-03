@@ -1,8 +1,13 @@
 import * as React from 'react'
 import * as THREE from 'three'
-import { useThree, useFrame, ReactThreeFiber } from '@react-three/fiber'
+import {
+  useThree,
+  useFrame,
+  ReactThreeFiber,
+  applyProps
+} from '@react-three/fiber'
 import CameraControlsDef from 'camera-controls'
-import { Side } from 'src/constants/sides'
+import { Side } from '../constants'
 
 // abstract class AbstractCameraControls extends CameraControlsDef {
 //   public abstract _spherical: CameraControlsDef['_spherical']
@@ -10,8 +15,11 @@ import { Side } from 'src/constants/sides'
 //   public abstract _yAxisUpSpaceInverse: CameraControlsDef['_yAxisUpSpaceInverse']
 // }
 
+type SideMap = { [key in Side]: [number, number] }
+
 const deg = Math.PI / 180
-const sideMap = {
+
+const sideMap: SideMap = {
   front: [0, 90 * deg],
   top: [0, 0],
   right: [90 * deg, 90 * deg],
@@ -59,11 +67,16 @@ class CameraControlsImpl extends CameraControlsDef {
 
 CameraControlsImpl.install({ THREE })
 
+interface CameraControlsStatics {
+  ACTION: typeof CameraControlsImpl['ACTION']
+  SIDE: SideMap
+}
+
 export type CameraControlsRef = CameraControlsImpl
 
 // type CameraControlsMouseActions =typeof CameraControlsImpl["ACTION"]["DOLLY" | ""]
 
-export type CamereaControlProps = ReactThreeFiber.Object3DNode<
+export type CameraControlsProps = ReactThreeFiber.Object3DNode<
   CameraControlsImpl,
   typeof CameraControlsImpl
 > & {
@@ -73,11 +86,16 @@ export type CamereaControlProps = ReactThreeFiber.Object3DNode<
   mouseButtons?: Partial<CameraControlsImpl['mouseButtons']>
 }
 
-export const useCameraControls = ({
+interface UseCameraControls extends CameraControlsStatics {
+  (args?: CameraControlsProps): CameraControlsImpl
+}
+
+export const useCameraControls: UseCameraControls = ({
   camera,
   fitInitial,
-  regress
-}: CamereaControlProps) => {
+  regress,
+  ...props
+} = {}) => {
   const invalidate = useThree(({ invalidate }) => invalidate)
   const defaultCamera = useThree(({ camera }) => camera)
   const scene = useThree(({ scene }) => scene)
@@ -88,6 +106,7 @@ export const useCameraControls = ({
 
   const controls = React.useMemo(() => {
     const controls = new CameraControlsImpl(explCamera, gl.domElement)
+    props && applyProps(controls as any, props as any)
     return controls
   }, [explCamera])
 
@@ -119,9 +138,12 @@ export const useCameraControls = ({
   return controls
 }
 
+useCameraControls['ACTION'] = CameraControlsImpl.ACTION
+useCameraControls['SIDE'] = sideMap
+
 const CameraControlsComponent = React.forwardRef<
   CameraControlsRef,
-  CamereaControlProps
+  CameraControlsProps
 >(({ fitInitial, regress, camera, ...props }, ref) => {
   // const invalidate = useThree(({ invalidate }) => invalidate)
   // const defaultCamera = useThree(({ camera }) => camera)
@@ -168,7 +190,5 @@ const CameraControlsComponent = React.forwardRef<
 CameraControlsComponent['ACTION'] = CameraControlsImpl.ACTION
 CameraControlsComponent['SIDE'] = sideMap
 
-export const CameraControls = CameraControlsComponent as typeof CameraControlsComponent & {
-  ACTION: typeof CameraControlsImpl['ACTION']
-  SIDE: { [key in Side]: [number, number] }
-}
+export const CameraControls = CameraControlsComponent as typeof CameraControlsComponent &
+  CameraControlsStatics
