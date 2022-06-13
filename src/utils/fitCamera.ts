@@ -4,7 +4,7 @@ import { useThree } from '@react-three/fiber'
 import { getBox } from './getBox'
 import { ObjectToFit } from './types'
 import { getFovToFit } from './perspectiveHelpers'
-import { isOrthographicCamera, isPerspectiveCamera } from './cameraHelpers'
+import { isOrthographicCamera, isPerspectiveCamera } from './checkTyped'
 
 type FitArgs = {
   camera: THREE.PerspectiveCamera | THREE.OrthographicCamera

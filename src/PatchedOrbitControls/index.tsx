@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { OrbitControls as OrbitControlsImpl } from './OrbitControls'
-import { OrbitControls } from 'three-stdlib'
 import { useThree, useFrame, ReactThreeFiber, extend } from '@react-three/fiber'
 
 extend({ PatchedOrbitControls: OrbitControlsImpl })
@@ -27,7 +26,7 @@ export const PatchedOrbitControls = React.forwardRef<
   const gl = useThree(({ gl }) => gl)
   const performance = useThree(({ performance }) => performance)
   const explCamera = camera || defaultCamera
-  const controls = React.useRef<OrbitControls>() // React.useMemo(
+  const controls = React.useRef() // React.useMemo(
   //   () => new OrbitControlsImpl(explCamera, gl.domElement),
   //   [explCamera, gl.domElement]
   // )
@@ -49,7 +48,6 @@ export const PatchedOrbitControls = React.forwardRef<
   }, [regress, controls.current, invalidate])
 
   return (
-    // @ts-ignore
     <patchedOrbitControls
       {...{
         ref,
