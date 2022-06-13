@@ -8,7 +8,7 @@ import { CameraControls, CameraControlsRef } from './CameraControls'
 import { sides, Side } from './constants'
 import { fitCamera } from './utils/fitCamera'
 import { useControls, buttonGroup, button } from 'leva'
-import { isPerspectiveCamera } from './utils/cameraHelpers'
+import { isPerspectiveCamera } from './utils/checkTyped'
 import {
   getDistanceToFit,
   getRadiusByFovAndDistance,
@@ -55,15 +55,14 @@ const DefaultTemplate = () => {
         size: sizeRef.current
       })
     ),
-    ...sides.reduce(
-      (p, side) => ({
-        ...p,
-        [side]: buttonGroup({
-          switch: () => controls.current.rotateTo(...sideMap[side], false),
-          transition: () => controls.current.rotateTo(...sideMap[side], true)
-        })
-      }),
-      {}
+    side: buttonGroup(
+      sides.reduce(
+        (p, side) => ({
+          ...p,
+          [side]: () => controls.current.rotateTo(...sideMap[side], true)
+        }),
+        {}
+      )
     ),
     'focal length': {
       value: 50,

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as THREE from 'three'
 import { Meta } from '@storybook/react'
-import { withKnobs, number } from '@storybook/addon-knobs'
 import { Box, PerspectiveCamera } from '@react-three/drei'
 import { animated, useSpring, useSpringRef } from '@react-spring/three'
 import {
@@ -25,8 +24,7 @@ export default {
         </Box>
         <CameraViewer />
       </Setup>
-    ),
-    withKnobs
+    )
   ]
 } as Meta
 
@@ -93,7 +91,7 @@ const Component = () => {
 }
 
 export const Spring = () => {
-  const fromFocalLength = number('from focalLength', 2)
-  const toFocalLength = number('to focalLength', 200)
+  // const fromFocalLength = number('from focalLength', 2)
+  // const toFocalLength = number('to focalLength', 200)
   return <Component />
 }

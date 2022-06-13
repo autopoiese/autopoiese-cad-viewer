@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as THREE from 'three'
 import { Meta } from '@storybook/react'
-import { withKnobs, number } from '@storybook/addon-knobs'
 import { Box } from '@react-three/drei'
 import { Setup } from '../../.storybook/Setup'
 import { CameraViewer } from '../../.storybook/CameraViewer'
@@ -13,7 +12,6 @@ export default {
   title: 'Cad/Viewer/ControlledCadCamera',
   component: ControlledCadCamera,
   decorators: [
-    withKnobs,
     (story) => (
       <Setup
         {...{
