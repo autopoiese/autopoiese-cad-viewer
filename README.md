@@ -19,3 +19,4 @@ todos:
 
 ### Bookmarks
 [bolt.new](https://bolt.new/~/github-wid5if-p7kbur)
+[stackblitz](https://stackblitz.com/edit/github-wid5if-p7kbur?file=example%2Ftsconfig.json)
